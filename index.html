@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Passkey Notes</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #141e30, #243b55);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 15px;
+      width: 95%;
+      max-width: 500px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    input, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input {
+      background-color: #f0f0f0;
+    }
+
+    textarea {
+      min-height: 300px;
+      resize: none;
+      background-color: #f9f9f9;
+    }
+
+    button {
+      background-color: #00d9ff;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #00c2e5;
+    }
+
+    #status {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      textarea {
+        min-height: 350px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔐 Passkey Notes</h1>
+    <input type="text" id="passkey" placeholder="Enter your passkey" />
+    <button onclick="loadNote()">Load Notes</button>
+    <textarea id="note" placeholder="Type your secret notes here..."></textarea>
+    <button onclick="saveNote()">Save Notes</button>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgifIRQn7tGkw0nAym-idjWKRa5VX8WwU",
+      authDomain: "passkey-notes-6fc0e.firebaseapp.com",
+      databaseURL: "https://passkey-notes-6fc0e-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "passkey-notes-6fc0e",
+      storageBucket: "passkey-notes-6fc0e.appspot.com",
+      messagingSenderId: "675522702817",
+      appId: "1:675522702817:web:863d391c20d1ffdc06b6a0"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let loadedNoteFlag = false;
+
+    function showStatus(msg, color = 'lime') {
+      const status = document.getElementById('status');
+      status.innerText = msg;
+      status.style.color = color;
+    }
+
+    function loadNote() {
+      const passkey = document.getElementById("passkey").value.trim();
+      if (!passkey) {
+        showStatus("❌ Please enter a passkey!", "red");
+        return;
+      }
+
+      db.ref(passkey).once("value", snapshot => {
+        const data = snapshot.val();
+        if (data && data.note) {
+          document.getElementById("note").value = data.note;
+          loadedNoteFlag = true;
+          showStatus("✅ Note loaded!");
+        } else {
+          document.getElementById("note").value = "";
+          loadedNoteFlag = false;
+          showStatus("ℹ️ No note found. You can save a new one.");
+        }
+      });
+    }
+
+    function saveNote() {
+      const passkey = document.getElementById("passkey").value.trim();
+      const note = document.getElementById("note").value;
+
+      if (!passkey) {
+        showStatus("❌ Passkey required!", "red");
+        return;
+      }
+
+      // Check if the passkey already exists
+      db.ref(passkey).once("value", snapshot => {
+        const existing = snapshot.val();
+        if (existing && existing.note && !loadedNoteFlag) {
+          showStatus("🚫 Passkey already exists! Try another.", "red");
+          return;
+        }
+
+        // Save the note
+        db.ref(passkey).set({ note: note }, error => {
+          if (error) {
+            showStatus("❌ Failed to save note!", "red");
+          } else {
+            loadedNoteFlag = true;
+            showStatus("✅ Note saved successfully!");
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>
