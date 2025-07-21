@@ -5,150 +5,168 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="description" content="Passkey Notes – A simple, secure, and private note locker that lets you store notes using a secret passkey." />
   <title>Passkey Notes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
   <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333;
+      --panel-bg: #f4f4f4;
+      --btn-bg: #4a90e2;
+      --btn-text: white;
+      --stroke: none;
+    }
+
+    body.dark {
+      --bg-color: #000000;
+      --text-color: #f0f0f0;
+      --panel-bg: #111;
+      --btn-bg: #00bfff;
+      --btn-text: black;
+      --stroke: 0 0 10px #00bfff, 0 0 20px #00bfff;
+    }
+
     * {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background: #000;
-      color: #fff;
+      background: var(--bg-color);
+      color: var(--text-color);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      transition: all 0.3s ease;
     }
 
     header {
-      background: #0d0d0d;
+      background: var(--btn-bg);
+      color: var(--btn-text);
       padding: 1rem 2rem;
-      color: white;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #1f1f1f;
     }
 
     header h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    nav {
+      display: flex;
+      gap: 1rem;
     }
 
     nav a {
-      margin-left: 1.5rem;
-      color: white;
+      color: var(--btn-text);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.3s ease;
     }
 
-    nav a:hover {
-      color: #00ccff;
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .menu-toggle div {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: var(--btn-bg);
+        position: absolute;
+        right: 1rem;
+        top: 60px;
+        z-index: 999;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
     }
 
     main {
       flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       padding: 2rem;
+      max-width: 800px;
+      margin: auto;
     }
 
-    .card {
-      position: relative;
-      background: #111;
-      border-radius: 16px;
-      padding: 2rem;
-      width: 100%;
-      max-width: 600px;
-      box-shadow: 0 0 5px #00ccff,
-                  0 0 10px #00ccff,
-                  0 0 15px #00ccff,
-                  inset 0 0 2px #00ccff;
-    }
-
-    .card h2 {
+    .intro {
+      margin-bottom: 2rem;
       text-align: center;
-      margin-bottom: 1.5rem;
-      font-weight: 600;
-      color: #00ccff;
     }
 
-    input[type="text"] {
+    .locker {
+      background: var(--panel-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: var(--stroke);
+      transition: box-shadow 0.3s ease;
+    }
+
+    input[type="text"], textarea {
       width: 100%;
-      padding: 0.8rem 1rem;
+      padding: 0.75rem;
       margin-bottom: 1rem;
-      border: 1px solid #333;
-      border-radius: 10px;
-      background: #000;
-      color: #fff;
-      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: white;
     }
 
     textarea {
-      width: 100%;
-      height: 250px;
-      padding: 1rem;
-      border: 1px solid #333;
-      border-radius: 10px;
-      background: #000;
-      color: #fff;
-      font-size: 1rem;
+      height: 300px;
       resize: vertical;
     }
 
-    .button-group {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-top: 1rem;
-    }
-
     button {
-      background: #00ccff;
-      color: #000;
-      padding: 0.8rem 1.5rem;
+      margin: 0.5rem 0.5rem 0 0;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      padding: 0.7rem 1.5rem;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      transition: background 0.3s ease;
     }
 
-    button:hover {
-      background: #0099cc;
+    #message {
+      margin-top: 1rem;
+      font-weight: bold;
     }
 
     footer {
-      background: #0d0d0d;
+      background: #eee;
       padding: 1rem;
       text-align: center;
       font-size: 0.9rem;
-      color: #aaa;
     }
 
     footer a {
-      color: #00ccff;
       margin: 0 1rem;
+      color: var(--btn-bg);
       text-decoration: none;
+    }
+
+    .dark footer {
+      background: #111;
     }
 
     @media (max-width: 600px) {
       textarea {
-        height: 350px;
-      }
-
-      header h1 {
-        font-size: 1.3rem;
-      }
-
-      nav a {
-        margin-left: 0.75rem;
-        font-size: 0.9rem;
+        height: 400px;
       }
     }
   </style>
@@ -156,25 +174,32 @@
 <body>
   <header>
     <h1>Passkey Notes</h1>
-    <nav>
+    <div class="menu-toggle" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+    <nav id="nav">
       <a href="about.html">About</a>
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
       <a href="contact.html">Contact</a>
+      <a href="#" onclick="toggleDarkMode()">🌙</a>
     </nav>
   </header>
 
   <main>
-    <div class="card">
-      <h2>🔒 Secure Notes Locker</h2>
-      <input type="text" id="passkey" placeholder="Enter your secret passkey" />
+    <section class="intro">
+      <h2>Private. Secure. Just Yours.</h2>
+      <p>Use your secret passkey to store or retrieve notes securely from any device.</p>
+    </section>
+
+    <section class="locker">
+      <input type="text" id="passkey" placeholder="Enter your passkey..." />
       <textarea id="note" placeholder="Write your notes here..."></textarea>
-      <div class="button-group">
-        <button onclick="saveNote()">💾 Save Note</button>
-        <button onclick="loadNote()">📂 Load Note</button>
-        <button onclick="deleteNote()">❌ Delete Note</button>
-      </div>
-    </div>
+      <button onclick="saveNote()">Save</button>
+      <button onclick="loadNote()">Load</button>
+      <button onclick="deleteNote()">Delete</button>
+      <div id="message"></div>
+    </section>
   </main>
 
   <footer>
@@ -186,55 +211,73 @@
   </footer>
 
   <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBgifIRQn7tGkw0nAym-idjWKRa5VX8WwU",
+      authDomain: "passkey-notes-6fc0e.firebaseapp.com",
+      databaseURL: "https://passkey-notes-6fc0e-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "passkey-notes-6fc0e",
+      storageBucket: "passkey-notes-6fc0e.appspot.com",
+      messagingSenderId: "675522702817",
+      appId: "1:675522702817:web:863d391c20d1ffdc06b6a0"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
     function saveNote() {
       const key = document.getElementById("passkey").value.trim();
-      const note = document.getElementById("note").value;
+      const note = document.getElementById("note").value.trim();
+      if (!key) return showMessage("❌ Please enter a passkey.", true);
 
-      if (!key) {
-        alert("Please enter a passkey.");
-        return;
-      }
-
-      if (localStorage.getItem(key)) {
-        alert("Passkey already exists, try another passkey.");
-      } else {
-        localStorage.setItem(key, note);
-        alert("Note saved successfully.");
-      }
+      db.ref("notes/" + key).once("value", (snapshot) => {
+        if (snapshot.exists()) {
+          showMessage("⚠️ Passkey already exists, try another.", true);
+        } else {
+          db.ref("notes/" + key).set(note);
+          showMessage("✅ Note saved successfully.");
+        }
+      });
     }
 
     function loadNote() {
       const key = document.getElementById("passkey").value.trim();
-
-      if (!key) {
-        alert("Please enter a passkey.");
-        return;
-      }
-
-      const note = localStorage.getItem(key);
-      if (note !== null) {
-        document.getElementById("note").value = note;
-        alert("Note loaded successfully.");
-      } else {
-        alert("No note found for this passkey.");
-      }
+      if (!key) return showMessage("❌ Please enter a passkey.", true);
+      db.ref("notes/" + key).once("value", (snapshot) => {
+        if (snapshot.exists()) {
+          document.getElementById("note").value = snapshot.val();
+          showMessage("📥 Note loaded successfully.");
+        } else {
+          showMessage("⚠️ No note found for this passkey.", true);
+        }
+      });
     }
 
     function deleteNote() {
       const key = document.getElementById("passkey").value.trim();
-
-      if (!key) {
-        alert("Please enter a passkey.");
-        return;
-      }
-
-      if (localStorage.getItem(key)) {
-        localStorage.removeItem(key);
+      if (!key) return showMessage("❌ Please enter a passkey.", true);
+      db.ref("notes/" + key).remove().then(() => {
         document.getElementById("note").value = "";
-        alert("Note deleted successfully.");
-      } else {
-        alert("No note found for this passkey.");
-      }
+        showMessage("🗑️ Note deleted successfully.");
+      }).catch(() => showMessage("⚠️ Error deleting note.", true));
+    }
+
+    function showMessage(msg, isError = false) {
+      const el = document.getElementById("message");
+      el.innerText = msg;
+      el.style.color = isError ? "red" : "green";
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    }
+
+    function toggleMenu() {
+      document.getElementById("nav").classList.toggle("active");
+    }
+
+    // Load user theme
+    if (localStorage.getItem("theme") === "dark") {
+      document.body.classList.add("dark");
     }
   </script>
 </body>

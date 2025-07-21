@@ -3,30 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About – Passkey Notes</title>
-  <style>
-    body {
-      background: #000;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      padding: 2rem;
-    }
-    h1 {
-      color: #00ccff;
-      margin-bottom: 1rem;
-    }
-    p {
-      line-height: 1.6;
-    }
-    a {
-      color: #00ccff;
-      text-decoration: none;
-    }
-  </style>
+  <title>About - Passkey Notes</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>About Passkey Notes</h1>
-  <p>Passkey Notes is a simple, private, and secure note-taking app that lets you store personal notes using a secret passkey. No sign-ups. No cloud. Your notes stay in your browser.</p>
-  <p><a href="index.html">← Back to Home</a></p>
+  <header>
+    <h1>Passkey Notes</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+      <button id="toggle-dark">🌗</button>
+    </nav>
+  </header>
+
+  <main>
+    <h2>About Passkey Notes</h2>
+    <p>Passkey Notes is a secure, anonymous note locker. Built for privacy and simplicity — no accounts, no tracking. Your passkey is the only way to access your notes.</p>
+    <p>Data is stored securely in Firebase and fully encrypted. You can create, access, or delete notes from any device using your unique passkey.</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Passkey Notes</p>
+  </footer>
+
+  <script src="theme-toggle.js"></script>
 </body>
 </html>
