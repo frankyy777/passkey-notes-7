@@ -2,167 +2,239 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Passkey Notes – A simple, secure, and private note locker that lets you store notes using a secret passkey." />
   <title>Passkey Notes</title>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to right, #141e30, #243b55);
-      color: white;
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
       min-height: 100vh;
+    }
+
+    header {
+      background: #0d0d0d;
+      padding: 1rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1f1f1f;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    nav a {
+      margin-left: 1.5rem;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #00ccff;
+    }
+
+    main {
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 2rem;
     }
 
-    .container {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 15px;
-      width: 95%;
-      max-width: 500px;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    input, textarea, button {
+    .card {
+      position: relative;
+      background: #111;
+      border-radius: 16px;
+      padding: 2rem;
       width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      max-width: 600px;
+      box-shadow: 0 0 5px #00ccff,
+                  0 0 10px #00ccff,
+                  0 0 15px #00ccff,
+                  inset 0 0 2px #00ccff;
     }
 
-    input {
-      background-color: #f0f0f0;
+    .card h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+      color: #00ccff;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #333;
+      border-radius: 10px;
+      background: #000;
+      color: #fff;
+      font-size: 1rem;
     }
 
     textarea {
-      min-height: 300px;
-      resize: none;
-      background-color: #f9f9f9;
+      width: 100%;
+      height: 250px;
+      padding: 1rem;
+      border: 1px solid #333;
+      border-radius: 10px;
+      background: #000;
+      color: #fff;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
     }
 
     button {
-      background-color: #00d9ff;
-      color: black;
-      font-weight: bold;
+      background: #00ccff;
+      color: #000;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
       cursor: pointer;
-      transition: 0.2s ease;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #00c2e5;
+      background: #0099cc;
     }
 
-    #status {
+    footer {
+      background: #0d0d0d;
+      padding: 1rem;
       text-align: center;
-      margin-top: 15px;
-      font-weight: bold;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    footer a {
+      color: #00ccff;
+      margin: 0 1rem;
+      text-decoration: none;
     }
 
     @media (max-width: 600px) {
       textarea {
-        min-height: 350px;
+        height: 350px;
+      }
+
+      header h1 {
+        font-size: 1.3rem;
+      }
+
+      nav a {
+        margin-left: 0.75rem;
+        font-size: 0.9rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔐 Passkey Notes</h1>
-    <input type="text" id="passkey" placeholder="Enter your passkey" />
-    <button onclick="loadNote()">Load Notes</button>
-    <textarea id="note" placeholder="Type your secret notes here..."></textarea>
-    <button onclick="saveNote()">Save Notes</button>
-    <div id="status"></div>
-  </div>
+  <header>
+    <h1>Passkey Notes</h1>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>🔒 Secure Notes Locker</h2>
+      <input type="text" id="passkey" placeholder="Enter your secret passkey" />
+      <textarea id="note" placeholder="Write your notes here..."></textarea>
+      <div class="button-group">
+        <button onclick="saveNote()">💾 Save Note</button>
+        <button onclick="loadNote()">📂 Load Note</button>
+        <button onclick="deleteNote()">❌ Delete Note</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="about.html">About</a> |
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms</a> |
+    <a href="contact.html">Contact</a>
+    <p>© 2025 Passkey Notes</p>
+  </footer>
 
   <script>
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBgifIRQn7tGkw0nAym-idjWKRa5VX8WwU",
-      authDomain: "passkey-notes-6fc0e.firebaseapp.com",
-      databaseURL: "https://passkey-notes-6fc0e-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "passkey-notes-6fc0e",
-      storageBucket: "passkey-notes-6fc0e.appspot.com",
-      messagingSenderId: "675522702817",
-      appId: "1:675522702817:web:863d391c20d1ffdc06b6a0"
-    };
+    function saveNote() {
+      const key = document.getElementById("passkey").value.trim();
+      const note = document.getElementById("note").value;
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+      if (!key) {
+        alert("Please enter a passkey.");
+        return;
+      }
 
-    let loadedNoteFlag = false;
-
-    function showStatus(msg, color = 'lime') {
-      const status = document.getElementById('status');
-      status.innerText = msg;
-      status.style.color = color;
+      if (localStorage.getItem(key)) {
+        alert("Passkey already exists, try another passkey.");
+      } else {
+        localStorage.setItem(key, note);
+        alert("Note saved successfully.");
+      }
     }
 
     function loadNote() {
-      const passkey = document.getElementById("passkey").value.trim();
-      if (!passkey) {
-        showStatus("❌ Please enter a passkey!", "red");
+      const key = document.getElementById("passkey").value.trim();
+
+      if (!key) {
+        alert("Please enter a passkey.");
         return;
       }
 
-      db.ref(passkey).once("value", snapshot => {
-        const data = snapshot.val();
-        if (data && data.note) {
-          document.getElementById("note").value = data.note;
-          loadedNoteFlag = true;
-          showStatus("✅ Note loaded!");
-        } else {
-          document.getElementById("note").value = "";
-          loadedNoteFlag = false;
-          showStatus("ℹ️ No note found. You can save a new one.");
-        }
-      });
+      const note = localStorage.getItem(key);
+      if (note !== null) {
+        document.getElementById("note").value = note;
+        alert("Note loaded successfully.");
+      } else {
+        alert("No note found for this passkey.");
+      }
     }
 
-    function saveNote() {
-      const passkey = document.getElementById("passkey").value.trim();
-      const note = document.getElementById("note").value;
+    function deleteNote() {
+      const key = document.getElementById("passkey").value.trim();
 
-      if (!passkey) {
-        showStatus("❌ Passkey required!", "red");
+      if (!key) {
+        alert("Please enter a passkey.");
         return;
       }
 
-      // Check if the passkey already exists
-      db.ref(passkey).once("value", snapshot => {
-        const existing = snapshot.val();
-        if (existing && existing.note && !loadedNoteFlag) {
-          showStatus("🚫 Passkey already exists! Try another.", "red");
-          return;
-        }
-
-        // Save the note
-        db.ref(passkey).set({ note: note }, error => {
-          if (error) {
-            showStatus("❌ Failed to save note!", "red");
-          } else {
-            loadedNoteFlag = true;
-            showStatus("✅ Note saved successfully!");
-          }
-        });
-      });
+      if (localStorage.getItem(key)) {
+        localStorage.removeItem(key);
+        document.getElementById("note").value = "";
+        alert("Note deleted successfully.");
+      } else {
+        alert("No note found for this passkey.");
+      }
     }
   </script>
 </body>
