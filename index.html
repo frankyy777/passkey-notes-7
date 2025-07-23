@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Passkey Notes Locker</title>
   <link rel="stylesheet" href="style.css" />
   <!-- Firebase CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <h1>Passkey Notes Locker</h1>
+
+    <!-- Desktop Navigation -->
     <nav id="desktop-nav">
       <a href="about.html">About</a>
       <a href="privacy.html">Privacy</a>
       <a href="terms.html">Terms</a>
       <a href="contact.html">Contact</a>
-      <button id="theme-toggle">Change Theme</button>
     </nav>
+
+    <!-- Always-visible Theme Button -->
+    <button id="theme-toggle">Change Theme</button>
+
+    <!-- Mobile Navigation -->
     <div id="mobile-nav">
       <button id="hamburger">&#9776;</button>
       <div id="mobile-links" class="hidden">
@@ -26,7 +33,6 @@
         <a href="privacy.html">Privacy</a>
         <a href="terms.html">Terms</a>
         <a href="contact.html">Contact</a>
-        <button id="theme-toggle-mobile">Change Theme</button>
       </div>
     </div>
   </header>
@@ -49,7 +55,7 @@
 
   <script src="theme-toggle.js"></script>
   <script>
-    // Firebase config
+    // Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyBgifIRQn7tGkw0nAym-idjWKRa5VX8WwU",
       authDomain: "passkey-notes-6fc0e.firebaseapp.com",
@@ -60,9 +66,8 @@
       appId: "1:675522702817:web:863d391c20d1ffdc06b6a0"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    const database = firebase.database();
 
     const noteEl = document.getElementById("note");
     const passkeyEl = document.getElementById("passkey");
@@ -71,18 +76,15 @@
       const passkey = passkeyEl.value.trim();
       const note = noteEl.value.trim();
       if (!passkey) return alert("Please enter a passkey.");
-      if (!note) return alert("Note cannot be empty.");
+      if (!note) return alert("Note is empty!");
 
-      db.ref("notes/" + passkey).once("value", (snapshot) => {
+      database.ref("notes/" + passkey).once("value", snapshot => {
         if (snapshot.exists()) {
           alert("Passkey already exists. Try another passkey.");
         } else {
-          db.ref("notes/" + passkey).set(note, (error) => {
-            if (error) {
-              alert("Error saving note.");
-            } else {
-              alert("Note saved successfully!");
-            }
+          database.ref("notes/" + passkey).set({ content: note }, error => {
+            if (error) alert("Failed to save note.");
+            else alert("Note saved successfully!");
           });
         }
       });
@@ -92,9 +94,9 @@
       const passkey = passkeyEl.value.trim();
       if (!passkey) return alert("Please enter a passkey.");
 
-      db.ref("notes/" + passkey).once("value", (snapshot) => {
+      database.ref("notes/" + passkey).once("value", snapshot => {
         if (snapshot.exists()) {
-          noteEl.value = snapshot.val();
+          noteEl.value = snapshot.val().content;
           alert("Note loaded!");
         } else {
           alert("No note found for this passkey.");
@@ -108,25 +110,17 @@
 
       const confirmDelete = confirm("Are you sure you want to delete this note?");
       if (confirmDelete) {
-        db.ref("notes/" + passkey).remove((error) => {
-          if (error) {
-            alert("Failed to delete note.");
-          } else {
+        database.ref("notes/" + passkey).remove()
+          .then(() => {
             noteEl.value = "";
             alert("Note deleted.");
-          }
-        });
+          })
+          .catch(() => alert("Error deleting note."));
       }
     }
 
-    // Hamburger toggle
     document.getElementById("hamburger").addEventListener("click", () => {
       document.getElementById("mobile-links").classList.toggle("hidden");
-    });
-
-    // Mobile theme button triggers desktop theme toggle
-    document.getElementById("theme-toggle-mobile").addEventListener("click", () => {
-      document.getElementById("theme-toggle").click();
     });
   </script>
 </body>
