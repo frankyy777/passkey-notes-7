@@ -4,31 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Privacy Policy - Passkey Notes</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="theme-toggle.js"></script>
 </head>
 <body>
   <header>
     <h1>Passkey Notes</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-      <a href="contact.html">Contact</a>
-      <button id="toggle-dark">🌗</button>
+      <ul class="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="privacy.html" class="active">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <button id="theme-toggle">Change Theme</button>
     </nav>
   </header>
 
   <main>
-    <h2>Privacy Policy</h2>
-    <p>We do not collect any personal information. All notes are private, stored under your chosen passkey, and cannot be accessed without it.</p>
-    <p>Firebase is used only to store your notes securely and anonymously. We don’t track you, use cookies, or share data.</p>
+    <section class="content-box">
+      <h2>Privacy Policy</h2>
+      <p>We don’t store personal information or track users. Your notes are saved securely in Firebase based on your unique passkey.</p>
+      <p>No cookies, no ads, no third-party tracking. Just notes and privacy.</p>
+    </section>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Passkey Notes</p>
-  </footer>
-
-  <script src="theme-toggle.js"></script>
+  <footer><p>&copy; 2025 Passkey Notes. All rights reserved.</p></footer>
 </body>
 </html>
