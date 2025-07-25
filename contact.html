@@ -1,35 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="default">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact - Passkey Notes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Passkey Notes Locker</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="theme-toggle.js"></script>
 </head>
 <body>
   <header>
-    <h1>Passkey Notes</h1>
-    <nav>
-      <ul class="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li><a href="terms.html">Terms</a></li>
-        <li><a href="contact.html" class="active">Contact</a></li>
-      </ul>
-      <button id="theme-toggle">Change Theme</button>
+    <div class="site-title">PASSKEY NOTES LOCKER</div>
+    <div class="theme-buttons">
+      <button id="change-theme">Change Theme</button>
+      <button id="default-theme">Default Theme</button>
+    </div>
+    <nav id="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="contact.html">Contact</a>
     </nav>
+    <div id="mobile-nav">
+      <button id="hamburger">☰</button>
+      <div id="mobile-links" class="hidden">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <section class="content-box">
-      <h2>Contact Us</h2>
-      <p>We're cooking up something exciting here. Stay tuned!</p>
-    </section>
+  <main class="extra-page">
+    <div class="animated-card spin-pop">
+      <h1>Contact</h1>
+      <p>Cooking something special here... Stay tuned! 🔥</p>
+    </div>
   </main>
 
-  <footer><p>&copy; 2025 Passkey Notes. All rights reserved.</p></footer>
+  <footer>
+    &copy; 2025 Passkey Notes Locker
+  </footer>
+
+  <script src="theme-toggle.js"></script>
+  <script>
+    document.getElementById("hamburger").addEventListener("click", () => {
+      document.getElementById("mobile-links").classList.toggle("hidden");
+    });
+
+    const savedTheme = localStorage.getItem("theme") || "default";
+    document.body.setAttribute("data-theme", savedTheme);
+    const themes = ["skyblue", "violet", "lightpink", "green", "red", "white", "yellow"];
+    let current = themes.indexOf(savedTheme);
+
+    document.getElementById("change-theme").addEventListener("click", () => {
+      current = (current + 1) % themes.length;
+      const next = themes[current];
+      document.body.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+    });
+
+    document.getElementById("default-theme").addEventListener("click", () => {
+      document.body.setAttribute("data-theme", "default");
+      localStorage.setItem("theme", "default");
+      current = -1;
+    });
+  </script>
 </body>
 </html>
-

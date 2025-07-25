@@ -1,4 +1,4 @@
-/* Basic Reset and Base Styles */
+/* Reset & Base */
 * {
   margin: 0;
   padding: 0;
@@ -6,181 +6,403 @@
 }
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #000000, #1a1a1a);
-  color: #fff;
-  transition: background 0.5s ease;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  flex-wrap: wrap;
-}
-
-h1 {
   font-family: 'Montserrat', sans-serif;
-  font-size: 1.7rem;
-  font-weight: 700;
-  color: #0ff; /* Default sky blue */
-  transition: color 0.3s ease;
-  margin-right: auto;
+  min-height: 100vh;
+  color: white;
+  transition: background 0.5s, color 0.5s;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
+/* Title */
+.site-title {
+  font-weight: bold;
+  font-size: 2rem;
+  margin-left: 20px;
+  transition: color 0.3s ease;
+}
 
+/* Theme-based Title Colors */
+body[data-theme="default"] .site-title   { color: #00ccff; }
+body[data-theme="skyblue"] .site-title,
+body[data-theme="violet"] .site-title,
+body[data-theme="lightpink"] .site-title,
+body[data-theme="green"] .site-title,
+body[data-theme="red"] .site-title,
+body[data-theme="white"] .site-title,
+body[data-theme="yellow"] .site-title { color: black; }
 
+/* Header */
+header {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
 
-#theme-toggle {
-  padding: 8px 14px;
+/* Theme Buttons */
+.theme-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.theme-buttons button {
+  padding: 5px 10px;
   border: none;
-  border-radius: 5px;
-  margin-left: auto;
-  background-color: #0ff;
-  color: #000;
   font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 4px;
+  background-color: #222;
+  color: white;
+  transition: background 0.3s;
 }
 
-#theme-toggle:hover {
-  box-shadow: 0 0 10px #0ff;
+.theme-buttons button:hover {
+  background-color: #444;
 }
 
-#desktop-nav {
-  display: flex;
-  gap: 1rem;
-  margin-left: 2rem;
-}
-
-#desktop-nav a {
-  color: #ccc;
+/* Navigation */
+nav a {
+  margin: 0 10px;
+  color: white;
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
+  font-weight: bold;
 }
 
-#desktop-nav a:hover {
-  color: #fff;
+nav a:hover {
+  text-decoration: underline;
 }
 
-/* Mobile Navigation */
+/* Mobile Nav */
 #mobile-nav {
   display: none;
 }
 
 #hamburger {
+  font-size: 24px;
   background: none;
   border: none;
-  font-size: 2rem;
-  color: #fff;
+  color: white;
   cursor: pointer;
 }
 
 #mobile-links {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .hidden {
   display: none;
 }
 
-#mobile-links a {
-  color: #ccc;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-#mobile-links a:hover {
-  color: #fff;
-}
-
-/* Main Layout */
+/* Main Content */
 main {
-  padding: 2rem;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 70vh;
+  padding: 20px;
 }
 
 .note-container {
   width: 100%;
-  max-width: 700px;
+  max-width: 800px;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 20px;
 }
 
-input#passkey,
-textarea#note {
-  padding: 1rem;
+/* Inputs and Textarea */
+.note-container input,
+.note-container textarea {
+  padding: 12px;
   border-radius: 8px;
+  font-size: 16px;
   border: none;
-  outline: none;
-  font-size: 1rem;
   width: 100%;
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #00ccff;
+  box-shadow: 0 0 10px #00ccff;
+  transition: all 0.3s ease;
 }
 
-textarea#note {
-  height: 300px;
-  resize: none;
+.note-container textarea {
+  resize: vertical;
+  min-height: 300px;
+  max-height: 60vh;
 }
 
+/* Buttons */
 .button-group {
   display: flex;
+  gap: 15px;
   justify-content: space-between;
-  gap: 1rem;
 }
 
 .button-group button {
   flex: 1;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 6px;
-  background-color: #0ff;
-  color: #000;
+  padding: 12px;
   font-weight: bold;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
-  transition: box-shadow 0.3s ease;
+  background-color: #00ccff;
+  color: #000;
+  box-shadow: 0 0 10px #00ccff, 0 0 20px #00ccff;
+  transition: all 0.3s ease;
 }
 
-.button-group button:hover {
-  box-shadow: 0 0 10px #0ff;
-}
-
+/* Footer */
 footer {
+  padding: 10px;
   text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-  color: #ccc;
+  background-color: rgba(0,0,0,0.3);
 }
 
-/* Responsive Layout */
+/* Notification Box */
+.notification {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  display: none;
+  z-index: 9999;
+  background: #333;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.notification.success { background-color: green; }
+.notification.error { background-color: red; }
+
+/* Theme: Default */
+body[data-theme="default"] {
+  background: #000;
+  color: #fff;
+}
+body[data-theme="default"] .note-container input,
+body[data-theme="default"] .note-container textarea,
+body[data-theme="default"] .button-group button {
+  border-color: #00ccff;
+  box-shadow: 0 0 10px #00ccff;
+  background-color: #000;
+  color: #00ccff;
+}
+body[data-theme="default"] header,
+body[data-theme="default"] footer {
+  background-color: #000;
+  border-bottom: 1px solid #00ccff;
+}
+body[data-theme="default"] nav a,
+body[data-theme="default"] .menu a {
+  color: #00ccff;
+}
+body[data-theme="default"] .theme-buttons button {
+  background-color: #000;
+  color: #00ccff;
+  border: 1px solid #00ccff;
+  box-shadow: 0 0 5px #00ccff;
+}
+
+/* Other Themes */
+body[data-theme="skyblue"] .note-container input,
+body[data-theme="skyblue"] .note-container textarea,
+body[data-theme="skyblue"] .button-group button {
+  border-color: #00e0ff;
+  box-shadow: 0 0 10px #00e0ff;
+  background-color: #001f33;
+  color: #00e0ff;
+}
+
+body[data-theme="violet"] .note-container input,
+body[data-theme="violet"] .note-container textarea,
+body[data-theme="violet"] .button-group button {
+  border-color: #d080ff;
+  box-shadow: 0 0 10px #d080ff;
+  background-color: #1b0033;
+  color: #d080ff;
+}
+
+body[data-theme="lightpink"] .note-container input,
+body[data-theme="lightpink"] .note-container textarea,
+body[data-theme="lightpink"] .button-group button {
+  border-color: #ff1493;
+  box-shadow: 0 0 10px #ff1493;
+  background-color: #fff;
+  color: #ff1493;
+}
+
+body[data-theme="green"] .note-container input,
+body[data-theme="green"] .note-container textarea,
+body[data-theme="green"] .button-group button {
+  border-color: #00ff99;
+  box-shadow: 0 0 10px #00ff99;
+  background-color: #00261a;
+  color: #00ff99;
+}
+
+body[data-theme="red"] .note-container input,
+body[data-theme="red"] .note-container textarea,
+body[data-theme="red"] .button-group button {
+  border-color: #ff5252;
+  box-shadow: 0 0 10px #ff5252;
+  background-color: #330000;
+  color: #ff5252;
+}
+
+body[data-theme="white"] .note-container input,
+body[data-theme="white"] .note-container textarea,
+body[data-theme="white"] .button-group button {
+  border-color: #666;
+  box-shadow: 0 0 10px #aaa;
+  background-color: #fff;
+  color: #000;
+}
+
+body[data-theme="yellow"] .note-container input,
+body[data-theme="yellow"] .note-container textarea,
+body[data-theme="yellow"] .button-group button {
+  border-color: #f7b500;
+  box-shadow: 0 0 10px #f7b500;
+  background-color: #332600;
+  color: #f7b500;
+}
+
+/* Theme Backgrounds */
+body[data-theme="skyblue"]    { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+body[data-theme="violet"]     { background: linear-gradient(135deg, #7f00ff, #e100ff); }
+body[data-theme="lightpink"]  { background: linear-gradient(135deg, #ff9a9e, #fad0c4); color: black; }
+body[data-theme="green"]      { background: linear-gradient(135deg, #56ab2f, #a8e063); }
+body[data-theme="red"]        { background: linear-gradient(135deg, #ff4e50, #f9d423); }
+body[data-theme="white"]      { background: linear-gradient(135deg, #ffffff, #e0e0e0); color: black; }
+body[data-theme="yellow"]     { background: linear-gradient(135deg, #f7971e, #ffd200); color: black; }
+
+/* Mobile Responsive */
 @media (max-width: 768px) {
-  #desktop-nav {
-    display: none;
+  #desktop-nav { display: none; }
+  #mobile-nav { display: block; }
+
+  .note-container {
+    padding: 10px;
+    max-width: 95%;
   }
 
-  #mobile-nav {
-    display: flex;
+  .note-container textarea {
+    min-height: 250px;
+    max-height: 50vh;
+  }
+
+  .theme-buttons {
+    margin-top: 10px;
     flex-direction: column;
-    align-items: flex-end;
   }
 
-  #theme-toggle {
-    margin: 1rem 0 0 auto;
+  .button-group {
+    flex-direction: column;
   }
 
-  main {
-    padding: 1rem;
+  .button-group button {
+    width: 100%;
   }
 
-  textarea#note {
-    height: 60vh;
+  .site-title {
+    font-size: 1.6rem;
+    margin-left: 10px;
+  }
+}
+
+/* ---------- Extra Page Animations ---------- */
+.extra-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 20px;
+}
+
+.animated-card {
+  max-width: 700px;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+  color: inherit;
+  text-align: center;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+/* Slide in from Left */
+.slide-in-left {
+  animation-name: slideInLeft;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Zoom In */
+.zoom-in {
+  animation-name: zoomIn;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Fade In Up */
+.fade-in-up {
+  animation-name: fadeInUp;
+}
+
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Spin Pop (funny) */
+.spin-pop {
+  animation-name: spinPop;
+}
+
+@keyframes spinPop {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.2) rotate(360deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
   }
 }
