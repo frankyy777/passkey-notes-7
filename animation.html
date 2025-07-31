@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passkey Notes Locker - Logo Animation</title>
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at center, #0a0a0a 0%, #000000 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .logo-container {
+      text-align: center;
+      animation: fadeInUp 1.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    .logo-container img {
+      width: 300px;
+      max-width: 90vw;
+      filter: drop-shadow(0 0 20px #00f0ff);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .logo-container img:hover {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 30px #00f0ff) brightness(1.2);
+    }
+
+    .logo-title {
+      margin-top: 20px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #00f0ff;
+      text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      letter-spacing: 2px;
+      animation: glowText 2s ease-in-out infinite alternate;
+    }
+
+    .logo-subtitle {
+      color: #ccc;
+      font-size: 16px;
+      margin-top: 5px;
+      letter-spacing: 1px;
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glowText {
+      from {
+        text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+      }
+      to {
+        text-shadow: 0 0 20px #00f0ff, 0 0 30px #00f0ff;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-container">
+    <img src="logo.png" alt="Passkey Notes Locker Logo" />
+    <div class="logo-title">PASSKEY NOTES LOCKER</div>
+    <div class="logo-subtitle">Your private digital vault</div>
+  </div>
+
+</body>
+</html>
