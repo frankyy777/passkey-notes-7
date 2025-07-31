@@ -1,29 +1,32 @@
-const themes = ['default', 'skyblue', 'violet', 'lightpink', 'green', 'red', 'white', 'yellow'];
-let currentThemeIndex = 0;
+const themes = [
+  "theme-1", "theme-2", "theme-3", "theme-4", "theme-5",
+  "theme-6", "theme-7", "theme-8", "theme-9", "theme-10"
+];
 
-function applyTheme(themeName) {
-  document.body.setAttribute('data-theme', themeName);
-  localStorage.setItem('selectedTheme', themeName);
+let currentTheme = localStorage.getItem("theme") || "default";
+
+function applyTheme(theme) {
+  document.body.className = "";
+  if (theme !== "default") document.body.classList.add(theme);
+  localStorage.setItem("theme", theme);
 }
 
-function resetToDefault() {
-  applyTheme('default');
-  currentThemeIndex = 0;
-}
+document.getElementById("changeThemeBtn").onclick = () => {
+  let index = themes.indexOf(currentTheme);
+  index = (index + 1) % themes.length;
+  currentTheme = themes[index];
+  applyTheme(currentTheme);
+};
 
-// Always apply default on first load
-resetToDefault();
+document.getElementById("defaultThemeBtn").onclick = () => {
+  currentTheme = "default";
+  applyTheme(currentTheme);
+};
 
-// Change Theme button logic
-document.getElementById('theme-toggle')?.addEventListener('click', () => {
-  currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-  applyTheme(themes[currentThemeIndex]);
-});
+applyTheme(currentTheme);
 
-// Default Theme button logic
-document.getElementById('default-theme')?.addEventListener('click', resetToDefault);
-
-// Mobile fallback
-document.getElementById('theme-toggle-mobile')?.addEventListener('click', () => {
-  document.getElementById('theme-toggle')?.click();
-});
+// Menu toggle
+document.getElementById("menuBtn").onclick = () => {
+  document.getElementById("menuDropdown").style.display =
+    document.getElementById("menuDropdown").style.display === "block" ? "none" : "block";
+};

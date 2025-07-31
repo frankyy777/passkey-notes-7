@@ -2,27 +2,26 @@
 <html lang="en" data-theme="default">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Privacy - Passkey Notes Locker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - Passkey Notes</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <div class="site-title">PASSKEY NOTES LOCKER</div>
+    <div class="logo">🗝️</div>
+    <h1 class="site-title">Passkey Notes Locker</h1>
+
     <div class="theme-buttons">
-      <button id="change-theme">Change Theme</button>
+      <button id="theme-toggle">Change Theme</button>
       <button id="default-theme">Default Theme</button>
     </div>
-    <nav id="desktop-nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-    <div id="mobile-nav">
-      <button id="hamburger">☰</button>
-      <div id="mobile-links" class="hidden">
+
+    <div id="menu-button-container">
+      <button id="menu-button">Menu ☰</button>
+      <div id="menu-links" class="hidden">
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="privacy.html">Privacy</a>
@@ -32,39 +31,21 @@
     </div>
   </header>
 
-  <main class="extra-page">
-    <div class="animated-card zoom-in">
-      <h1>Privacy Policy</h1>
-      <p>We respect your privacy. No ads, no trackers, just neon-powered note security. 🛡️</p>
-    </div>
+  <main class="extra-page slide-in">
+    <h2>Privacy Policy 🕵️‍♂️</h2>
+    <p>We don’t store your secrets – only your passkey notes, and only if you ask us to! 🔐</p>
+    <p>No trackers, no ads (unless you add them 😉), and definitely no nonsense.</p>
+    <p>Your passkey is your key. Lose it? We can't help. 🙃</p>
   </main>
 
   <footer>
-    &copy; 2025 Passkey Notes Locker
+    <p>&copy; 2025 Passkey Notes</p>
   </footer>
 
   <script src="theme-toggle.js"></script>
   <script>
-    document.getElementById("hamburger").addEventListener("click", () => {
-      document.getElementById("mobile-links").classList.toggle("hidden");
-    });
-
-    const savedTheme = localStorage.getItem("theme") || "default";
-    document.body.setAttribute("data-theme", savedTheme);
-    const themes = ["skyblue", "violet", "lightpink", "green", "red", "white", "yellow"];
-    let current = themes.indexOf(savedTheme);
-
-    document.getElementById("change-theme").addEventListener("click", () => {
-      current = (current + 1) % themes.length;
-      const next = themes[current];
-      document.body.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
-    });
-
-    document.getElementById("default-theme").addEventListener("click", () => {
-      document.body.setAttribute("data-theme", "default");
-      localStorage.setItem("theme", "default");
-      current = -1;
+    document.getElementById("menu-button").addEventListener("click", () => {
+      document.getElementById("menu-links").classList.toggle("hidden");
     });
   </script>
 </body>

@@ -1,4 +1,3 @@
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBgifIRQn7tGkw0nAym-idjWKRa5VX8WwU",
   authDomain: "passkey-notes-6fc0e.firebaseapp.com",
@@ -12,61 +11,45 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-function showNotification(message, success = true) {
-  const box = document.getElementById('notification');
-  box.innerText = message;
-  box.className = 'notification ' + (success ? 'success' : 'error');
-  box.style.display = 'block';
-  setTimeout(() => {
-    box.style.display = 'none';
-  }, 3000);
+function notify(message, color = "#00d0ff") {
+  const box = document.getElementById("notification");
+  box.style.display = "block";
+  box.style.backgroundColor = color;
+  box.textContent = message;
+  setTimeout(() => box.style.display = "none", 3000);
 }
 
 function saveNote() {
   const key = document.getElementById("passkey").value.trim();
-  const note = document.getElementById("note").value;
-  if (!key) return showNotification("Passkey is required", false);
+  const note = document.getElementById("note").value.trim();
+  if (!key || !note) return notify("Enter both passkey and note", "orange");
 
-  db.ref("notes/" + key).once('value', (snapshot) => {
-    if (snapshot.exists()) {
-      showNotification("Passkey already exists, try another", false);
-    } else {
-      db.ref("notes/" + key).set({ note });
-      showNotification("Note saved successfully");
-    }
+  db.ref("notes/" + key).once("value", snapshot => {
+    if (snapshot.exists()) return notify("Passkey already exists!", "red");
+
+    db.ref("notes/" + key).set({ note });
+    notify("Note saved successfully!", "green");
   });
 }
 
 function loadNote() {
   const key = document.getElementById("passkey").value.trim();
-  if (!key) return showNotification("Passkey is required", false);
+  if (!key) return notify("Enter a passkey to load", "orange");
 
-  db.ref("notes/" + key).once('value', (snapshot) => {
+  db.ref("notes/" + key).once("value", snapshot => {
     if (snapshot.exists()) {
       document.getElementById("note").value = snapshot.val().note;
-      showNotification("Note loaded");
-    } else {
-      showNotification("No note found", false);
-    }
+      notify("Note loaded!", "green");
+    } else notify("Note not found!", "red");
   });
 }
 
 function deleteNote() {
   const key = document.getElementById("passkey").value.trim();
-  if (!key) return showNotification("Passkey is required", false);
+  if (!key) return notify("Enter a passkey to delete", "orange");
 
-  db.ref("notes/" + key).once('value', (snapshot) => {
-    if (snapshot.exists()) {
-      db.ref("notes/" + key).remove();
-      document.getElementById("note").value = "";
-      showNotification("Note deleted");
-    } else {
-      showNotification("No note found to delete", false);
-    }
+  db.ref("notes/" + key).remove().then(() => {
+    document.getElementById("note").value = "";
+    notify("Note deleted!", "green");
   });
 }
-
-// Hamburger Menu
-document.getElementById("hamburger")?.addEventListener("click", () => {
-  document.getElementById("mobile-links")?.classList.toggle("hidden");
-});

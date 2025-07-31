@@ -1,75 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="default">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Passkey Notes Locker</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <h1 class="site-title">Passkey Notes Locker</h1>
-
-    <div class="theme-buttons">
-      <button id="theme-toggle">Change Theme</button>
-      <button id="default-theme">Default Theme</button>
-    </div>
-
-    <nav id="desktop-nav">
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
-      <a href="contact.html">Contact</a>
-    </nav>
-
-    <div id="mobile-nav">
-      <button id="hamburger">&#9776;</button>
-      <div id="mobile-links" class="hidden">
-        <a href="about.html">About</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <a href="contact.html">Contact</a>
+    <img src="logo.png" alt="Logo" class="logo" />
+    <div class="top-buttons">
+      <button id="changeThemeBtn">Change Theme</button>
+      <button id="defaultThemeBtn">Default Theme</button>
+      <div class="menu-container">
+        <button id="menuBtn">☰ Menu</button>
+        <div class="menu-dropdown" id="menuDropdown">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="contact.html">Contact</a>
+        </div>
       </div>
     </div>
   </header>
 
   <main>
-    <div class="note-container">
-      <input type="text" id="passkey" placeholder="Enter Passkey" />
-      <textarea id="note" placeholder="Write your note..."></textarea>
-      <div class="button-group">
-        <button onclick="saveNote()">Save</button>
-        <button onclick="loadNote()">Load</button>
-        <button onclick="deleteNote()">Delete</button>
-      </div>
+    <input type="text" id="passkey" placeholder="Enter Passkey" />
+    <textarea id="note" placeholder="Write your note..."></textarea>
+    <div class="buttons">
+      <button onclick="saveNote()">Save</button>
+      <button onclick="loadNote()">Load</button>
+      <button onclick="deleteNote()">Delete</button>
     </div>
+    <div id="notification"></div>
   </main>
 
-  <footer>
-    <p>&copy; 2025 Passkey Notes</p>
-  </footer>
+  <footer>© 2025 Passkey Notes</footer>
 
-  <div id="notification" class="notification"></div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-  <!-- Theme + Script -->
   <script src="theme-toggle.js"></script>
   <script src="script.js"></script>
-
-  <!-- Hamburger Toggle -->
-  <script>
-    document.getElementById('hamburger').addEventListener('click', function () {
-      const mobileLinks = document.getElementById('mobile-links');
-      mobileLinks.classList.toggle('hidden');
-    });
-
-    // Apply saved theme on load
-    const savedTheme = localStorage.getItem('selectedTheme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-    }
-  </script>
 </body>
 </html>
