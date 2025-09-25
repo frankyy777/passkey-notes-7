@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Privacy Policy - Passkey Notes</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo">🗝️</div>
+    <h1 class="site-title">Passkey Notes Locker</h1>
+
+    <div class="theme-buttons">
+      <button id="theme-toggle">Change Theme</button>
+      <button id="default-theme">Default Theme</button>
+    </div>
+
+    <div id="menu-button-container">
+      <button id="menu-button">Menu ☰</button>
+      <div id="menu-links" class="hidden">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="extra-page slide-in">
+    <h2>Privacy Policy 🕵️‍♂️</h2>
+    <p>We don’t store your secrets – only your passkey notes, and only if you ask us to! 🔐</p>
+    <p>No trackers, no ads (unless you add them 😉), and definitely no nonsense.</p>
+    <p>Your passkey is your key. Lose it? We can't help. 🙃</p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Passkey Notes</p>
+  </footer>
+
+  <script src="theme-toggle.js"></script>
+  <script>
+    document.getElementById("menu-button").addEventListener("click", () => {
+      document.getElementById("menu-links").classList.toggle("hidden");
+    });
+  </script>
+</body>
+</html>
